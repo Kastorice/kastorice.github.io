@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'LXGW Wenkai', sans-serif;
+}
+
+.avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    margin-bottom: 30px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 3px solid white;
+    flex-shrink: 0;
+}
+
+.cover {
+    height: 100vh;
+    background-color: #F5F3F9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.cover-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90%;
+    width: 100%;
+}
+
+.cover h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+    flex-shrink: 0;
+}
+
+.btn {
+    background: #4D5C92;
+    color: white;
+    padding: 16px 65px;
+    border-radius: 35px;
+    text-decoration: none;
+    font-size: 1rem;
+    margin-top: 20px;
+    display: inline-block;
+    transition: all 0.3s;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+
+.btn:hover {
+    background: #3d4a7a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+.intro-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #444;
+}
+
+.intro-text p {
+    margin-bottom: 0.5rem;
+}
+
+.intro-text a {
+    color: #4D5C92;
+    text-decoration: none;
+    border-bottom: 1px solid #4D5C92;
+    padding-bottom: 2px;
+}
+
+.blockquote {
+    position: relative;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    background: #f9f9ff;
+    border-left: 4px solid #4D5C92;
+    border-radius: 0 6px 6px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .avatar {
+        width: 140px;
+        height: 140px;
+        margin-bottom: 20px;
+    }
+
+    .cover h1 {
+        font-size: 2rem;
+    }
+
+    .btn {
+        padding: 18px 58px;
+        font-size: 1rem;
+    }
+
+    .content {
+        padding: 30px 20px;
+    }
+    
+    .blockquote {
+        padding: 1.2rem 1.5rem;
+        margin: 1.5rem 0;
+    }
+}
