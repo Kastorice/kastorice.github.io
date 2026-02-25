@@ -21,7 +21,7 @@
     --card-border-hover: #1C5DBF;
     --card-title: #000000;
     --card-meta-time: #606A79;
-    --card-meta-tag: #626A78; /* 统一后的标签色 */
+    --card-meta-tag: #626A78; 
     --card-btn: #1C5DBF;
     --card-shadow: rgba(28, 93, 191, 0.08);
 
@@ -67,7 +67,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
 body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.4s ease; scroll-behavior: smooth; }
 
-/* ================= 导航栏 (紧凑型) ================= */
+/* ================= 导航栏 (对齐优化) ================= */
 nav {
     position: fixed; top: 0; left: 0; width: 100%; height: 70px;
     background-color: var(--nav-bg);
@@ -77,20 +77,19 @@ nav {
 }
 .nav-container {
     width: 100%; max-width: var(--content-width); 
-    padding: 0 20px; /* PC端容器内边距 */
+    padding: 0 20px; 
     display: flex; justify-content: space-between; align-items: center;
 }
 .nav-left { 
-    font-size: 1.4rem; 
-    font-weight: 700; 
-    cursor: pointer; 
-    color: var(--nav-title-color); 
-    transition: color 0.3s ease; 
-    /* PC端修正：补偿卡片边框(2px) + 卡片内边距(24px) = 26px */
-    margin-left: 26px; 
+    font-size: 1.4rem; font-weight: 700; cursor: pointer; color: var(--nav-title-color); transition: color 0.3s ease; 
+    margin-left: 26px; /* 补偿卡片左内边距 */
 }
 .nav-left:hover { color: var(--nav-hover-text); }
-.nav-right { display: flex; align-items: center; gap: 8px; }
+
+.nav-right { 
+    display: flex; align-items: center; gap: 8px; 
+    margin-right: 26px; /* 新增：向左缩进，与左侧对齐 */
+}
 .nav-links { display: flex; gap: 4px; }
 .nav-links a { text-decoration: none; color: var(--nav-link-color); font-weight: 500; padding: 6px 14px; border-radius: 8px; transition: 0.2s ease; font-size: 0.95rem; }
 .nav-links a:hover { background-color: var(--nav-hover-bg); color: var(--nav-hover-text); }
@@ -112,10 +111,10 @@ nav {
 .cursor { display: inline-block; width: 2px; height: 1.1em; background-color: var(--nav-link-color); margin-left: 4px; animation: blink 1s step-end infinite; vertical-align: middle; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-/* ================= 主体内容 (紧凑型) ================= */
+/* ================= 主体内容 (间距统一) ================= */
 .main-container {
     max-width: var(--content-width); margin: 0 auto; 
-    padding: 35px 20px 60px 20px; 
+    padding: 35px 20px; /* 统一上下内边距为 35px */
     display: flex; gap: 40px; align-items: flex-start;
 }
 .article-list { flex: 1; display: flex; flex-direction: column; gap: 24px; }
@@ -123,7 +122,7 @@ nav {
 /* 文章卡片 */
 .article-card { 
     border: 2px solid var(--card-border); border-radius: 12px; 
-    padding: 20px 24px; /* 卡片内边距：24px */
+    padding: 20px 24px; 
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 .article-card:hover { border-color: var(--card-border-hover); transform: translateY(-3px); box-shadow: 0 10px 25px var(--card-shadow); }
@@ -134,7 +133,7 @@ nav {
 .article-excerpt { font-size: 0.96rem; line-height: 1.6; color: var(--text-color); margin-bottom: 16px; opacity: 0.8; text-align: left; }
 .read-more { text-decoration: none; color: var(--card-btn); font-weight: 600; font-size: 0.92rem; transition: 0.2s; display: block; text-align: left; }
 
-/* 侧边栏 (非固定) */
+/* 侧边栏 */
 .sidebar { width: 270px; flex-shrink: 0; } 
 .profile-card { background-color: var(--profile-bg); border-radius: 16px; padding: 35px 20px; text-align: center; }
 .profile-avatar { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 4px solid var(--bg-color); }
@@ -145,13 +144,12 @@ nav {
 .stat-label { color: var(--profile-text); }
 .stat-value { color: var(--profile-num); font-weight: 700; }
 
-/* ================= 脚注 ================= */
+/* ================= 脚注 (间距修正) ================= */
 footer { 
     background-color: var(--footer-bg); 
     width: 100%; 
     padding: 25px 0; 
-    text-align: center; 
-    margin-top: 40px; 
+    margin-top: 0; /* 移除外边距，改由 main-container 的 padding 控制 */
 }
 .footer-line-1 { color: var(--footer-text-1); font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
 .footer-line-2 { display: flex; justify-content: center; align-items: center; gap: 12px; }
@@ -161,32 +159,20 @@ footer {
 .footer-icon { width: 16px; height: 16px; fill: currentColor; }
 .footer-divider { display: inline-block; width: 2px; height: 12px; background-color: var(--footer-text-2); opacity: 0.4; margin: 0 4px; border-radius: 1px; }
 
-/* ================= 响应式深度整改 ================= */
+/* ================= 响应式修正 ================= */
 @media (max-width: 992px) {
     .sidebar { display: none; }
-    
-    .main-container { 
-        padding: 25px 12px 40px 12px; /* 容器边距 12px */
-    } 
+    .main-container { padding: 25px 12px; } 
+    .article-card { padding: 16px 18px; }
+    .article-title { font-size: 1.25rem; }
 
-    .article-card {
-        padding: 16px 18px; /* 平板端卡片内边距变为 18px */
-    }
-
-    .article-title {
-        font-size: 1.25rem;
-    }
-
-    /* 修正：补偿容器 20px + 卡片边框 2px + 卡片内边距 18px = 40px。
-       导航栏容器已有 20px padding，所以再加 20px margin */
-    .nav-left {
-        margin-left: 20px;
-    }
+    /* 响应式对齐修正 */
+    .nav-left { margin-left: 20px; }
+    .nav-right { margin-right: 20px; }
 }
 
 @media (max-width: 768px) {
-    .nav-container { padding: 0 12px; } /* 移动端导航容器边距 12px */
-
+    .nav-container { padding: 0 12px; }
     .menu-toggle { display: flex !important; }
     
     .nav-links { 
@@ -194,16 +180,12 @@ footer {
         background-color: var(--nav-bg); backdrop-filter: blur(20px);
         flex-direction: column; align-items: center; max-height: 0; 
         overflow: hidden; transition: 0.4s ease; 
+        margin-right: 0; /* 移动端菜单展开时不缩进 */
     }
     .nav-links.active { 
-        max-height: 250px; 
-        padding: 20px 0; 
-        border-bottom: 1px solid var(--nav-border); 
+        max-height: 250px; padding: 20px 0; border-bottom: 1px solid var(--nav-border); 
     }
 
-    /* 修正：移动端容器 12px + 卡片边框 2px + 卡片内边距 18px = 32px。
-       导航栏容器已有 12px padding，所以再加 20px margin */
-    .nav-left {
-        margin-left: 20px;
-    }
+    .nav-left { margin-left: 20px; }
+    .nav-right { margin-right: 20px; }
 }
