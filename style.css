@@ -77,10 +77,18 @@ nav {
 }
 .nav-container {
     width: 100%; max-width: var(--content-width); 
-    padding: 0 20px; /* PC端两端紧凑间距 */
+    padding: 0 20px; /* PC端容器内边距 */
     display: flex; justify-content: space-between; align-items: center;
 }
-.nav-left { font-size: 1.4rem; font-weight: 700; cursor: pointer; color: var(--nav-title-color); transition: color 0.3s ease; }
+.nav-left { 
+    font-size: 1.4rem; 
+    font-weight: 700; 
+    cursor: pointer; 
+    color: var(--nav-title-color); 
+    transition: color 0.3s ease; 
+    /* PC端修正：补偿卡片边框(2px) + 卡片内边距(24px) = 26px */
+    margin-left: 26px; 
+}
 .nav-left:hover { color: var(--nav-hover-text); }
 .nav-right { display: flex; align-items: center; gap: 8px; }
 .nav-links { display: flex; gap: 4px; }
@@ -107,15 +115,15 @@ nav {
 /* ================= 主体内容 (紧凑型) ================= */
 .main-container {
     max-width: var(--content-width); margin: 0 auto; 
-    padding: 35px 20px 60px 20px; /* 顶部上移，侧边减小 */
+    padding: 35px 20px 60px 20px; 
     display: flex; gap: 40px; align-items: flex-start;
 }
 .article-list { flex: 1; display: flex; flex-direction: column; gap: 24px; }
 
-/* 文章卡片内部间距压紧 */
+/* 文章卡片 */
 .article-card { 
     border: 2px solid var(--card-border); border-radius: 12px; 
-    padding: 20px 24px; 
+    padding: 20px 24px; /* 卡片内边距：24px */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 .article-card:hover { border-color: var(--card-border-hover); transform: translateY(-3px); box-shadow: 0 10px 25px var(--card-shadow); }
@@ -137,11 +145,11 @@ nav {
 .stat-label { color: var(--profile-text); }
 .stat-value { color: var(--profile-num); font-weight: 700; }
 
-/* ================= 脚注 (矮化/精致版) ================= */
+/* ================= 脚注 ================= */
 footer { 
     background-color: var(--footer-bg); 
     width: 100%; 
-    padding: 25px 0; /* 高度矮化 */
+    padding: 25px 0; 
     text-align: center; 
     margin-top: 40px; 
 }
@@ -150,32 +158,34 @@ footer {
 .footer-line-2 a { color: var(--footer-text-2); text-decoration: none; font-size: 0.88rem; display: flex; align-items: center; gap: 6px; transition: color 0.3s ease; }
 .footer-line-2 a:hover { color: var(--nav-hover-text); }
 
-/* 图标与分割线细节 */
 .footer-icon { width: 16px; height: 16px; fill: currentColor; }
 .footer-divider { display: inline-block; width: 2px; height: 12px; background-color: var(--footer-text-2); opacity: 0.4; margin: 0 4px; border-radius: 1px; }
 
-/* ================= 响应式深度整改 (移动端极限紧凑) ================= */
+/* ================= 响应式深度整改 ================= */
 @media (max-width: 992px) {
     .sidebar { display: none; }
     
-    /* 核心：手机端左右外边距压死到 12px */
     .main-container { 
-        padding: 25px 12px 40px 12px; 
+        padding: 25px 12px 40px 12px; /* 容器边距 12px */
     } 
 
-    /* 卡片内部空间最大化 */
     .article-card {
-        padding: 16px 18px; 
+        padding: 16px 18px; /* 平板端卡片内边距变为 18px */
     }
 
     .article-title {
         font-size: 1.25rem;
     }
+
+    /* 修正：补偿容器 20px + 卡片边框 2px + 卡片内边距 18px = 40px。
+       导航栏容器已有 20px padding，所以再加 20px margin */
+    .nav-left {
+        margin-left: 20px;
+    }
 }
 
 @media (max-width: 768px) {
-    /* 导航栏两端也压紧 */
-    .nav-container { padding: 0 12px; }
+    .nav-container { padding: 0 12px; } /* 移动端导航容器边距 12px */
 
     .menu-toggle { display: flex !important; }
     
@@ -189,5 +199,11 @@ footer {
         max-height: 250px; 
         padding: 20px 0; 
         border-bottom: 1px solid var(--nav-border); 
+    }
+
+    /* 修正：移动端容器 12px + 卡片边框 2px + 卡片内边距 18px = 32px。
+       导航栏容器已有 12px padding，所以再加 20px margin */
+    .nav-left {
+        margin-left: 20px;
     }
 }
