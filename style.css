@@ -72,7 +72,8 @@ nav {
     display: flex; justify-content: center;
 }
 .nav-container {
-    width: 100%; max-width: var(--content-width); padding: 0 40px;
+    width: 100%; max-width: var(--content-width); 
+    padding: 0 20px; /* 【已缩紧】从 40px 改为 20px */
     display: flex; justify-content: space-between; align-items: center;
 }
 .nav-left { font-size: 1.4rem; font-weight: 700; cursor: pointer; color: var(--nav-title-color); transition: color 0.3s ease; }
@@ -87,7 +88,7 @@ nav {
 .nav-svg-icon.stroke-icon { fill: none; } 
 .nav-svg-icon.fill-icon { stroke: none; }
 
-/* 图标切换逻辑修复 */
+/* 图标切换逻辑 */
 [data-theme="light"] .moon-icon { display: none !important; }
 [data-theme="dark"] .sun-icon { display: none !important; }
 .menu-toggle { display: none !important; }
@@ -102,90 +103,53 @@ nav {
 /* 主体内容 */
 .main-container {
     max-width: var(--content-width); margin: 0 auto; 
-    padding: 40px 40px 80px 40px; 
-    display: flex; gap: 45px; align-items: flex-start;
+    padding: 35px 20px 60px 20px; /* 【已缩紧】顶部缩小，左右两端距离缩小至 20px */
+    display: flex; gap: 40px; align-items: flex-start;
 }
-.article-list { flex: 1; display: flex; flex-direction: column; gap: 28px; }
+.article-list { flex: 1; display: flex; flex-direction: column; gap: 24px; /* 卡片之间的距离稍微缩紧 */ }
 .article-card { 
-    border: 2px solid var(--card-border); border-radius: 12px; padding: 28px 35px; 
+    border: 2px solid var(--card-border); border-radius: 12px; 
+    padding: 20px 24px; /* 【已缩紧】内部上下、左右间距明显减小 */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 .article-card:hover { border-color: var(--card-border-hover); transform: translateY(-3px); box-shadow: 0 10px 25px var(--card-shadow); }
-.article-title { font-size: 1.4rem; font-weight: 700; color: var(--card-title); margin-bottom: 12px; letter-spacing: -0.3px; text-align: left; }
-.article-meta { display: flex; align-items: center; gap: 12px; font-size: 0.88rem; margin-bottom: 16px; line-height: 1; }
+.article-title { font-size: 1.4rem; font-weight: 700; color: var(--card-title); margin-bottom: 10px; letter-spacing: -0.3px; text-align: left; }
+.article-meta { display: flex; align-items: center; gap: 12px; font-size: 0.88rem; margin-bottom: 14px; line-height: 1; }
 .meta-time { color: var(--card-meta-time); }
 .meta-tag { color: var(--card-meta-tag); font-weight: 600; } 
-.article-excerpt { font-size: 0.96rem; line-height: 1.7; color: var(--text-color); margin-bottom: 20px; opacity: 0.8; text-align: left; }
+.article-excerpt { font-size: 0.96rem; line-height: 1.6; color: var(--text-color); margin-bottom: 16px; opacity: 0.8; text-align: left; }
 .read-more { text-decoration: none; color: var(--card-btn); font-weight: 600; font-size: 0.92rem; transition: 0.2s; display: block; text-align: left; }
 
 /* 侧边栏 */
 .sidebar { width: 270px; flex-shrink: 0; } 
-.profile-card { background-color: var(--profile-bg); border-radius: 18px; padding: 40px 20px; text-align: center; }
-.profile-avatar { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 18px; border: 4px solid var(--bg-color); }
+.profile-card { background-color: var(--profile-bg); border-radius: 16px; padding: 35px 20px; text-align: center; }
+.profile-avatar { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 4px solid var(--bg-color); }
 .profile-name { font-size: 1.3rem; font-weight: 800; color: var(--card-title); margin-bottom: 6px; }
-.profile-intro { font-size: 0.9rem; color: var(--profile-text); margin-bottom: 22px; }
-.profile-divider { border: none; height: 1px; background-color: var(--profile-text); width: 60%; margin: 0 auto 22px auto; opacity: 0.15; }
+.profile-intro { font-size: 0.9rem; color: var(--profile-text); margin-bottom: 20px; }
+.profile-divider { border: none; height: 1px; background-color: var(--profile-text); width: 60%; margin: 0 auto 20px auto; opacity: 0.15; }
 .stat-line { display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 0.95rem; margin-bottom: 10px; }
 .stat-label { color: var(--profile-text); }
 .stat-value { color: var(--profile-num); font-weight: 700; }
 
-/* 脚注 */
-/* ================= 脚注样式重排 ================= */
+/* ================= 脚注 (已压扁) ================= */
 footer { 
     background-color: var(--footer-bg); 
     width: 100%; 
-    padding: 60px 0; 
+    padding: 25px 0; /* 【已缩紧】从60px大幅降至25px，高度大幅变矮 */
     text-align: center; 
-    margin-top: 60px; 
+    margin-top: 40px; 
 }
+.footer-line-1 { color: var(--footer-text-1); font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+.footer-line-2 { display: flex; justify-content: center; align-items: center; gap: 12px; }
+.footer-line-2 a { color: var(--footer-text-2); text-decoration: none; font-size: 0.88rem; display: flex; align-items: center; gap: 6px; transition: color 0.3s ease; }
+.footer-line-2 a:hover { color: var(--nav-hover-text); }
+.footer-icon { width: 16px; height: 16px; fill: currentColor; } /* 图标稍微变小一点配合矮脚注 */
+.footer-divider { display: inline-block; width: 2px; height: 12px; background-color: var(--footer-text-2); opacity: 0.4; margin: 0 4px; border-radius: 1px; }
 
-.footer-line-1 { 
-    color: var(--footer-text-1); 
-    font-weight: 600; 
-    margin-bottom: 20px; 
-    font-size: 0.95rem; 
-}
-
-.footer-line-2 { 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px; /* 图标与文字之间的呼吸感 */
-}
-
-.footer-line-2 a { 
-    color: var(--footer-text-2); 
-    text-decoration: none;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 6px; /* 图标与文字的间距 */
-    transition: color 0.3s ease;
-}
-
-.footer-line-2 a:hover { 
-    color: var(--nav-hover-text); 
-}
-
-/* 图标大小控制 */
-.footer-icon {
-    width: 18px;
-    height: 18px;
-}
-
-/* 已整改：加粗、调整透明度的分割线 */
-.footer-divider { 
-    display: inline-block;
-    width: 2px;             /* 加粗到 2px */
-    height: 14px;
-    background-color: var(--footer-text-2);
-    opacity: 0.5;           /* 提高一点透明度，让它更清晰 */
-    border-radius: 1px;
-}
 /* 响应式逻辑 */
 @media (max-width: 992px) {
     .sidebar { display: none; }
-    .main-container { padding: 40px 30px; } 
+    .main-container { padding: 30px 15px; } /* 移动端外侧间距进一步压紧至15px */
     .article-list { width: 100%; }
 }
 @media (max-width: 768px) {
