@@ -1,32 +1,131 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>松川的小窝 | Kastorice's Blog</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-webfont/1.6.0/style.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kastorice's Blog</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <section class="cover">
-        <div class="cover-content">
-            <img src="avatar.jpg" alt="头像" class="avatar">
-            <h1>松川 Kastorice</h1>
-            <a href="https://qm.qq.com/q/aNlarX26dy" class="btn">联系我</a>
-        </div>
-    </section>
 
-    <main class="content">
-        <section class="intro-text">
-            <p class="blockquote">“但是太阳，它每时每刻都是夕阳也都是旭日，当他熄灭着走下山去收尽苍凉残照之际，正是它在另一面燃烧着爬上山颠布散烈烈朝晖之时。”（史铁生《我与地坛》）</p>
-            <p>「看见那圈白色光晕了么？它叫做日冕，是太阳炽烈的皇冠。」
-            <p>「那为什么平时我们看不见它呢？」</p>
-            <p>「因为太阳总是过于刺眼。而只有在他一片漆黑的时候，你方能得见他的冠冕。」</p>
-            <p>——出自<a href="https://www.bilibili.com/video/BV1HfKiz3Ezf/">《崩坏：星穹铁道》白厄角色PV:「日冕」</a></p>
-        </section>
-    </main>
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left" id="blog-title">Kastorice's Blog</div>
+      <div class="nav-right">
+        <div class="nav-links" id="navLinks">
+          <a href="#">主页</a>
+          <a href="#">归档</a>
+          <a href="#">关于我</a>
+        </div>
+        <button class="icon-btn" id="theme-toggle-btn">
+          <svg class="nav-svg-icon sun-icon stroke-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="nav-svg-icon moon-icon fill-icon" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button class="icon-btn menu-toggle" id="menuToggle">
+          <svg class="nav-svg-icon stroke-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section id="cover">
+    <div class="cover-content">
+      <h1>Kastorice's Blog</h1>
+      <div class="signature-container"><span id="signature-text"></span><span class="cursor"></span></div>
+    </div>
+  </section>
+
+  <main class="main-container">
+    <div class="article-list">
+      <article class="article-card">
+        <h2 class="article-title">深度学习：探索神经网络的黑盒世界</h2>
+        <div class="article-meta">
+          <span class="meta-time">2026-02-25</span>
+          <span class="meta-tag">#人工智能</span>
+        </div>
+        <p class="article-excerpt">从简单的感知机到复杂的 Transformer 模型，深度学习正在重塑我们与世界的交互方式。直观理解反向传播的艺术...</p>
+        <a href="#" class="read-more">阅读全文 →</a>
+      </article>
+
+      <article class="article-card">
+        <h2 class="article-title">Rust 编程：安全与性能的平衡之道</h2>
+        <div class="article-meta">
+          <span class="meta-time">2026-02-18</span>
+          <span class="meta-tag">#后端技术</span>
+        </div>
+        <p class="article-excerpt">为什么越来越多的系统级开发开始转向 Rust？所有权系统究竟解决了什么痛点？看看 Rust 如何实现零成本抽象...</p>
+        <a href="#" class="read-more">阅读全文 →</a>
+      </article>
+
+      <article class="article-card">
+        <h2 class="article-title">江西摄影日志：捕捉赣江落日的最后一抹红</h2>
+        <div class="article-meta">
+          <span class="meta-time">2026-02-10</span>
+          <span class="meta-tag">#生活随笔</span>
+        </div>
+        <p class="article-excerpt">在繁忙的学习之余，拿起相机走向江边。赣江不再是地理书上的名字，而是流动的诗篇。聊聊我对光影的理解...</p>
+        <a href="#" class="read-more">阅读全文 →</a>
+      </article>
+    </div>
+
+    <aside class="sidebar">
+      <div class="profile-card">
+        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop"
+          alt="Avatar" class="profile-avatar">
+        <h3 class="profile-name">Kastorice</h3>
+        <p class="profile-intro">A student from Jiangxi</p>
+        <hr class="profile-divider">
+        <div class="stat-line"><span class="stat-label">文章数量</span><span class="stat-value">9</span></div>
+        <div class="stat-line"><span class="stat-label">动态数量</span><span class="stat-value">12</span></div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="footer-line-1">© 2025-2026 By Kastorice</div>
+    <div class="footer-line-2">
+      <a href="#" title="Github">
+        <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12 0c6.63 0 12 5.276 12 11.79-.001 5.067-3.29 9.567-8.175 11.187-.6.118-.825-.25-.825-.56 0-.398.015-1.665.015-3.242 0-1.105-.375-1.813-.81-2.181 2.67-.295 5.475-1.297 5.475-5.822 0-1.297-.465-2.344-1.23-3.169.12-.295.54-1.503-.12-3.125 0 0-1.005-.324-3.3 1.209a11.32 11.32 0 00-3-.398c-1.02 0-2.04.133-3 .398-2.295-1.518-3.3-1.209-3.3-1.209-.66 1.622-.24 2.83-.12 3.125-.765.825-1.23 1.887-1.23 3.169 0 4.51 2.79 5.527 5.46 5.822-.345.294-.66.81-.765 1.577-.69.31-2.415.81-3.495-.973-.225-.354-.9-1.223-1.845-1.209-1.005.015-.405.56.015.781.51.28 1.095 1.327 1.23 1.666.24.663 1.02 1.93 4.035 1.385 0 .988.015 1.916.015 2.196 0 .31-.225.664-.825.56C3.303 21.374-.003 16.867 0 11.791 0 5.276 5.37 0 12 0">
+          </path>
+        </svg>
+        Github
+      </a>
+
+      <span class="footer-divider"></span>
+
+      <a href="#" title="Bilibili">
+        <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M4.977 3.561a1.31 1.31 0 111.818-1.884l2.828 2.728c.08.078.149.163.205.254h4.277a1.32 1.32 0 01.205-.254l2.828-2.728a1.31 1.31 0 011.818 1.884L17.82 4.66h.848A5.333 5.333 0 0124 9.992v7.34a5.333 5.333 0 01-5.333 5.334H5.333A5.333 5.333 0 010 17.333V9.992a5.333 5.333 0 015.333-5.333h.781L4.977 3.56zm.356 3.67a2.667 2.667 0 00-2.666 2.667v7.529a2.667 2.667 0 002.666 2.666h13.334a2.667 2.667 0 002.666-2.666v-7.53a2.667 2.667 0 00-2.666-2.666H5.333zm1.334 5.192a1.333 1.333 0 112.666 0v1.192a1.333 1.333 0 11-2.666 0v-1.192zM16 11.09c-.736 0-1.333.597-1.333 1.333v1.192a1.333 1.333 0 102.666 0v-1.192c0-.736-.597-1.333-1.333-1.333z">
+          </path>
+        </svg>
+        Bilibili
+      </a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 
 </html>
