@@ -21,7 +21,7 @@
     --card-border-hover: #1C5DBF;
     --card-title: #000000;
     --card-meta-time: #606A79;
-    --card-meta-tag: #626A78; 
+    --card-meta-tag: #626A78;
     --card-btn: #1C5DBF;
     --card-shadow: rgba(28, 93, 191, 0.08);
 
@@ -67,7 +67,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
 body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.4s ease; scroll-behavior: smooth; }
 
-/* ================= 导航栏 (对齐优化) ================= */
+/* ================= 导航栏 (对齐优化版) ================= */
 nav {
     position: fixed; top: 0; left: 0; width: 100%; height: 70px;
     background-color: var(--nav-bg);
@@ -82,13 +82,13 @@ nav {
 }
 .nav-left { 
     font-size: 1.4rem; font-weight: 700; cursor: pointer; color: var(--nav-title-color); transition: color 0.3s ease; 
-    margin-left: 26px; /* 补偿卡片左内边距 */
+    margin-left: 26px; /* 补偿左侧文章标题对齐 */
 }
 .nav-left:hover { color: var(--nav-hover-text); }
 
 .nav-right { 
     display: flex; align-items: center; gap: 8px; 
-    margin-right: 26px; /* 新增：向左缩进，与左侧对齐 */
+    margin-right: 26px; /* 右侧同步缩进，保持对称 */
 }
 .nav-links { display: flex; gap: 4px; }
 .nav-links a { text-decoration: none; color: var(--nav-link-color); font-weight: 500; padding: 6px 14px; border-radius: 8px; transition: 0.2s ease; font-size: 0.95rem; }
@@ -111,7 +111,7 @@ nav {
 .cursor { display: inline-block; width: 2px; height: 1.1em; background-color: var(--nav-link-color); margin-left: 4px; animation: blink 1s step-end infinite; vertical-align: middle; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-/* ================= 主体内容 (间距统一) ================= */
+/* ================= 主体内容 (上下间距对齐) ================= */
 .main-container {
     max-width: var(--content-width); margin: 0 auto; 
     padding: 35px 20px; /* 统一上下内边距为 35px */
@@ -144,15 +144,30 @@ nav {
 .stat-label { color: var(--profile-text); }
 .stat-value { color: var(--profile-num); font-weight: 700; }
 
-/* ================= 脚注 (间距修正) ================= */
+/* ================= 脚注 (强制居中修正) ================= */
 footer { 
     background-color: var(--footer-bg); 
     width: 100%; 
-    padding: 25px 0; 
-    margin-top: 0; /* 移除外边距，改由 main-container 的 padding 控制 */
+    padding: 30px 0; 
+    margin-top: 0; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 关键：子元素水平居中 */
+    justify-content: center;
 }
-.footer-line-1 { color: var(--footer-text-1); font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
-.footer-line-2 { display: flex; justify-content: center; align-items: center; gap: 12px; }
+.footer-line-1 { 
+    color: var(--footer-text-1); 
+    font-weight: 600; 
+    margin-bottom: 8px; 
+    font-size: 0.9rem; 
+    text-align: center; /* 强制文字居中 */
+}
+.footer-line-2 { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 12px; 
+}
 .footer-line-2 a { color: var(--footer-text-2); text-decoration: none; font-size: 0.88rem; display: flex; align-items: center; gap: 6px; transition: color 0.3s ease; }
 .footer-line-2 a:hover { color: var(--nav-hover-text); }
 
@@ -166,7 +181,6 @@ footer {
     .article-card { padding: 16px 18px; }
     .article-title { font-size: 1.25rem; }
 
-    /* 响应式对齐修正 */
     .nav-left { margin-left: 20px; }
     .nav-right { margin-right: 20px; }
 }
@@ -180,7 +194,6 @@ footer {
         background-color: var(--nav-bg); backdrop-filter: blur(20px);
         flex-direction: column; align-items: center; max-height: 0; 
         overflow: hidden; transition: 0.4s ease; 
-        margin-right: 0; /* 移动端菜单展开时不缩进 */
     }
     .nav-links.active { 
         max-height: 250px; padding: 20px 0; border-bottom: 1px solid var(--nav-border); 
