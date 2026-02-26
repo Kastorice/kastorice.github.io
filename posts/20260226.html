@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>深度解析：如何在前端项目中优雅地实现暗黑模式 - Kastorice's Blog</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="template/posts_style.css">
+  
+  <link id="prism-theme-link" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left" id="blog-title" onclick="location.href='../index.html'">Kastorice's Blog</div>
+      <div class="nav-right">
+        <div class="nav-links" id="navLinks">
+          <a href="../index.html">主页</a>
+          <a href="#">归档</a>
+          <a href="#">关于我</a>
+        </div>
+        <button class="icon-btn" id="theme-toggle-btn">
+          <svg class="nav-svg-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="nav-svg-icon moon-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <button class="icon-btn menu-toggle" id="menuToggle">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="post-main">
+    <header class="post-header-banner">
+      <div class="post-container">
+        <div class="post-header-content">
+          <h1 class="post-header-title">深度解析：CSS 变量与双主题无缝切换技术</h1>
+          <div class="post-header-meta">
+            <span class="post-date">2026-02-26</span>
+            <span class="post-tag"># 前端技术</span>
+            <span class="post-tag"># CSS</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="post-body">
+      <article class="post-content">
+        <p>在现代 Web 开发中，暗黑模式已经变成了“必选项”。今天，我们将探讨如何以最优的代码结构，为你的网站注入暗黑模式的灵魂，并实现代码高亮主题的动态无缝切换。</p>
+
+        <h2>一、代码字体的极致覆盖</h2>
+        <p>很多时候我们引入了代码高亮库（例如 Prism.js），却发现自定义的等宽字体无法覆盖全部内容。例如变量名、标点符号依然使用系统默认字体。通过强力的 CSS 穿透选择器，我们现在可以让 <code>Noto Sans Mono</code> 接管一切：</p>
+
+        <pre><code class="language-css">/* 强力覆盖 Prism 拆分的每一个 token 节点 */
+pre[class*="language-"] *,
+code[class*="language-"] * {
+    font-family: 'Noto Sans Mono', monospace !important;
+}
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+}</code></pre>
+
+        <h2>二、如何动态切换代码块主题？</h2>
+        <p>单纯的网页背景变暗是不够的，如果深色模式下代码块依然是浅色，不仅刺眼而且突兀。最优雅的方案是利用 JavaScript 监听网页的 <code>data-theme</code> 属性，并实时更换 Prism 的 CSS 引用链接。</p>
+
+        <p>你可以点击右上角的月亮/太阳图标试试看，下方的 JavaScript 代码块也会跟着瞬间变身！</p>
+
+        <pre><code class="language-javascript">document.addEventListener('DOMContentLoaded', () => {
+    // 监听 html 标签的 data-theme 属性变化
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'data-theme') {
+                const newTheme = document.documentElement.getAttribute('data-theme');
+                updatePrismTheme(newTheme);
+            }
+        });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+});</code></pre>
+
+        <h2>三、舒适的阅读宽度与媒体约束</h2>
+        <p>对于技术博客，横向拉伸过宽会导致用户的视线疲劳。在宽屏显示器上，将文字的段落宽度约束在 <code>720px</code> 是一个黄金比例。</p>
+        <p>此外，我们需要给所有文章图片加上 <code>max-height: 500px</code> 限制，这样就能避免超长竖版图片霸占屏幕：</p>
+        
+        <img src="../avatar.jpg" alt="Dark Mode Example Design">
+        <hr>
+        <p>如果你对前端排版和主题切换感兴趣，欢迎访问我的 <a href="https://github.com" target="_blank">Github 仓库</a> 获取更多源码分享。</p>
+      </article>
+    </div>
+  </main>
+
+  <button id="back-to-top" title="返回顶部">
+    <svg viewBox="0 -960 960 960"><path d="m256-424-56-56 280-280 280 280-56 56-224-223-224 223Z"/></svg>
+  </button>
+
+  <div id="signature-text" style="display: none;"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  
+  <script src="../script.js"></script>
+  <script src="template/posts_script.js"></script>
+</body>
+</html>
