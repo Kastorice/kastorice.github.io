@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft 基岩版行为包制作全流程教程 — Kastorice's Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../posts_style.css">
+</head>
+
+<body>
+    <nav class="navbar" role="navigation" aria-label="主导航">
+        <a href="../index.html" class="navbar-brand">Kastorice's Blog</a>
+        <ul class="navbar-links" role="menubar">
+            <li role="none"><a href="../index.html" role="menuitem">主页</a></li>
+            <li role="none"><a href="#" role="menuitem">归档</a></li>
+            <li role="none"><a href="#" role="menuitem">关于我</a></li>
+        </ul>
+    </nav>
+
+    <main class="article-page">
+        <article class="article-container">
+            <header class="article-header">
+                <h1 class="article-title">Minecraft 基岩版行为包制作全流程教程</h1>
+                <time class="article-date" datetime="2026-06-29">2026-06-29</time>
+            </header>
+            <hr class="article-divider">
+
+            <div class="article-body">
+                <p>本教程旨在为有一定 Minecraft 游戏基础、想深入了解或投身于基岩版 Add-on
+                    开发的创作者提供系统化的指导。行为包是基岩版模组开发的核心，它决定了游戏内生物的行为、物品的属性、方块的功能以及底层的逻辑运行。</p>
+
+                <p>写代码和配置文件是一项需要极其严谨心态的工作。在制作行为包的过程中，哪怕只是漏掉了一个逗号，或者大小写拼错，都会导致整个行为包失效。请务必保持耐心，严格按照规范操作。</p>
+
+                <h2>一、开发前的准备工作</h2>
+                <p>在开始之前，搭建一个高效、规范的开发环境可以让你事半功倍。</p>
+
+                <h3>1. 必备工具</h3>
+                <ol>
+                    <li><strong>代码编辑器：</strong>强烈推荐使用 Visual Studio Code。它是目前开发MC基岩版最主流的工具，拥有丰富的插件生态。</li>
+                    <li><strong>Bedrock Edition Development：</strong>VS Code 插件。提供基岩版JSON代码的高亮、补全和错误提示。</li>
+                    <li><strong>Blockbench：</strong>VS Code 插件。用于制作 3D 模型和导出基岩版文件（选装，主要用于资源包，但行为包关联生物时常用）。</li>
+                    <li><strong>UUID 生成器：</strong>行为包需要唯一的身份标识，可以通过在线 UUID 生成器或 VS Code 的相关插件生成。</li>
+                </ol>
+
+                <h3>2. 游戏内设置</h3>
+                <p>为了方便调试，建议专门建立一个测试创造地图，并在世界设置中开启以下选项：</p>
+                <ol>
+                    <li><strong>测试版 API：</strong>如果你需要使用 JavaScript 脚本控制游戏逻辑，则必须开启此项。</li>
+                    <li><strong>内容日志文件：</strong>在游戏的“设置”>“全局资源”或“存储”侧边栏中，务必开启“内容日志历史记录”。当行为包报错时，这里会准确指出哪一行代码出了问题。</li>
+                </ol>
+
+                <h2>二、行为包的核心目录结构</h2>
+                <p>基岩版的Add-on采用了数据驱动的设计理念，所有的机制都通过特定目录下的 JSON 文件来定义。一个标准且完整的行为包结构如下：</p>
+                <pre class="code-block" data-lang="Plaintext"><code>
+MyBehaviorPack/
+├── manifest.json                  # 行为包的元数据与配置文件（核心）
+├── pack_icon.png                  # 行为包的图标（256x256像素）
+├── entities/                      # 存放生物行为文件的目录
+│   └── custom_zombie.json         # 自定义生物或修改原版生物的文件
+├── items/                         # 自定义物品的目录
+│   └── ruby_sword.json
+├── blocks/                        # 自定义方块的目录
+│   └── ruby_ore.json
+├── loot_tables/                   # 掉落物表目录
+│   └── entities/
+│       └── cow.json
+├── recipes/                       # 合成表目录
+│   └── ruby_sword_recipe.json
+├── functions/                     # 函数文件目录（.mcfunction）
+│   └── init.mcfunction
+└── scripts/                       # Script API 脚本目录（可选）
+    └── main.js</code></pre>
+                <p>需要注意的是，文件夹的名称必须完全使用小写英文字母，且拼写不得有误，否则游戏引擎无法识别。</p>
+
+                <h2>三、核心基础：编写<code class="inline-code">manifest.json</code>文件</h2>
+                <p><code class="inline-code">manifest.json</code>是行为包的身份证，没有它，游戏根本不会读取该文件夹。它定义了包的名字、描述、唯一UUID以及版本号。</p>
+                <p>在你的工作目录下新建一个名为<code class="inline-code">manifest.json</code>的文件，填入以下标准模板：</p>
+                <pre class="code-block" data-lang="Javascript"><code>
+{
+    "format_version": 2,
+    "header": {
+        "description": "这是我的第一个基岩版行为包",
+        "name": "自定义行为包模板",
+        "uuid": "4f3b2a1c-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
+        "version": [1, 0, 0],
+        "min_engine_version": [1, 20, 0]
+    },
+    "modules": [
+        {
+            "description": "行为包核心模块",
+            "type": "data",
+            "uuid": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+            "version": [1, 0, 0]
+        }
+    ],
+    "dependencies": []
+}</code></pre>
+                <ol>
+                    <li><strong>format_version：</strong>定义清单文件的格式版本，通常为2。</li>
+                    <li><strong>UUID：</strong>唯一通用识别码。注意，<code class="inline-code">header</code>和 <code
+                            class="inline-code">modules</code> 内的 UUID 绝对不能相同，且每一次制作新包都要重新生成。</li>
+                    <li><strong>version：</strong>行为包的版本号。格式为<code class="inline-code">[主版本, 次版本, 修订版本]</code>，升级模组时需递增。
+                    </li>
+                    <li><strong>min_engine_version：</strong>支持的最低游戏版本。它决定了你的包能调用哪个版本及以上的游戏组件。</li>
+                    <li><strong>type：</strong>模块的类型。传统行为包的代码部分固定填<code
+                            class="inline-code">"data"</code>。若要启用脚本则需额外添加<code class="inline-code">"script"</code>模块。
+                    </li>
+                </ol>
+
+                <h2>四、实战演练一：修改原版生物行为（让牛掉落钻石）</h2>
+                <p>接下来通过一个经典的改动来熟悉数据驱动的逻辑。我们将修改原版的“牛”，让它在被击杀时不再只掉落皮革和牛肉，而是有概率掉落钻石。</p>
+
+                <h3>步骤1：创建掉落物文件</h3>
+                <p>在行为包内依次建立文件夹：<code class="inline-code">loot_tables/entities/</code>。在此目录下创建一个名为<code
+                        class="inline-code">cow.json</code>的文件。</p>
+                <p>写入以下 JSON 代码：</p>
+                <pre class="code-block" data-lang="JSON"><code>
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:beef",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 3
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:diamond",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 2
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}</code></pre>
+
+                <blockquote class="mc-quote">
+                    <p>我们对上述代码进行拆解：
+                    <ol>
+                        <li><strong>pools</strong>（掉落池）：游戏在计算掉落时会遍历每个池。上面有两个池，意味着牛肉和钻石的判定是独立的。</li>
+                        <li><strong>rolls</strong>（抽取次数）：当前池被执行多少次。</li>
+                        <li><strong>entries</strong>（条目）：池内包含的具体物品。name 指定物品ID，weight 代表权重。</li>
+                        <li><strong>functions</strong>（函数修正）：set_count 用于控制数量。在上面的代码中，钻石的掉落数量被设定在 1 到 2 之间。</li>
+                    </ol>
+                    </p>
+                </blockquote>
+
+                <h2>步骤2：覆写生物组件</h2>
+                <p>若要完全控制牛的行为，可以在<code class="inline-code">entities/</code> 文件夹下创建 <code
+                        class="inline-code">cow.json</code>。基岩版允许我们通过定义与原版同名的文件来覆盖原版行为。</p>
+                <p>你可以通过官方提供的<code class="inline-code">Vanilla Add-ons</code>模板获取原版牛的完整组件，修改其<code
+                        class="inline-code">minecraft:loot</code> 组件指向你自定义的掉落表：</p>
+                <pre class="code-block" data-lang="JSON"><code>"minecraft:loot": {
+    "table": "loot_tables/entities/cow.json"}</code></pre>
+
+                <h2>五、实战演练二：从零创建自定义物品与合成表</h2>
+                <p>仅仅修改原版内容是不够的，Add-on 的真正魅力在于创造全新的事物。下面我们将制作一把“红宝石神剑”。</p>
+                <h3>1. 编写物品行为文件</h3>
+                <p>在<code class="inline-code">items/</code> 文件夹下创建<code class="inline-code">ruby_sword.json</code>：</p>
+                <pre class="code-block" data-lang="JSON"><code>
+{
+    "format_version": "1.20.10",
+    "minecraft:item": {
+        "description": {
+            "identifier": "custom:ruby_sword",
+            "menu_category": {
+                "category": "equipment",
+                "group": "itemGroup.name.sword"
+            }
+        },
+        "components": {
+            "minecraft:display_name": {
+                "value": "红宝石神剑"
+            },
+            "minecraft:icon": {
+                "texture": "ruby_sword"
+            },
+            "minecraft:hand_equipped": true,
+            "minecraft:max_stack_size": 1,
+            "minecraft:damage": 8,
+            "minecraft:weapon": {
+                "on_hit_block_break": true
+            },
+            "minecraft:durability": {
+                "max_durability": 2000
+            },
+            "minecraft:can_destroy_in_creative": false
+        }
+    }
+}</code></pre>
+                <blockquote class="mc-quote">
+                    <p>我们对上述代码的关键组件进行解析：
+                    <ol>
+                        <li><strong>identifier</strong>（标识符）：命名空间必须符合命名空间:物品名 的格式。这里用<code class="inline-code">custom:ruby_sword</code>，避免与官方的 <code class="inline-code">minecraft:</code> 冲突。</li>
+                        <li><strong>menu_category</strong>：决定了该物品在创造模式物品栏的哪一栏出现。</li>
+                        <li><strong>minecraft:damage</strong>：赋予该物品基础攻击力。这里设定为 8 点（比下界合金剑还要高 1 点）。</li>
+                        <li><strong>minecraft:durability</strong>：耐久度组件。<code class="inline-code">max_durability</code> 设为 2000。</li>
+                        <li><strong>minecraft:icon</strong>：指向资源包中<code class="inline-code">item_texture.json</code>所定义的贴图键名。(注意：由于本篇主讲行为包，贴图需要配合资源包才能正常显示，否则在游戏中会显示为紫黑相间的方块，但其属性和功能依然生效)。</li>
+                    </ol>
+                    </p>
+                </blockquote>
+                <h3>2. 编写合成表文件</h3>
+                <p>为了能让生存模式的玩家获取这把武器，我们需要在<code class="inline-code">recipes/</code>文件夹下创建一个合成表文件<code
+                        class="inline-code">ruby_sword_recipe.json</code>：</p>
+                        <pre class="code-block" data-lang="JSON"><code>
+{
+    "format_version": "1.12.0",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "custom:ruby_sword_recipe"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            " R ",
+            " R ",
+            " S "
+        ],
+        "key": {
+            "R": {
+                "item": "minecraft:ruby"
+            },
+            "S": {
+                "item": "minecraft:stick"
+            }
+        },
+        "result": {
+            "item": "custom:ruby_sword",
+            "count": 1
+        }
+    }
+}</code></pre>
+                <blockquote class="mc-quote">
+                    <p>一些逻辑说明：</p>
+                    <ol>
+                        <li><code class="inline-code">recipe_shaped</code>表示有序合成。如果要无序合成则使用 <code class="inline-code">recipe_shapeless</code>。</li>
+                        <li><code class="inline-code">pattern</code> 直观地模拟了 3 × 3 工作台的网格。空格代表不放任何东西，<code class="inline-code">R</code> 和 <code class="inline-code">S</code> 分别对应下面<code class="inline-code">key</code>绑定的物品。</li>
+                        <li><code class="inline-code">result</code> 则是产出的结果。</li>
+                    </ol>
+                </blockquote>
+
+                <h2>六、进阶开发：引入 Script API</h2>
+                <p>传统的 JSON 行为包采用的是数据声明式的逻辑，无法处理极其复杂的动态条件（比如：判断玩家的血量是否低于 20% 从而触发雷击）。为了解决这个问题，现代基岩版（1.19+）引入了基于 JavaScript 的 Script API。</p>
+                <p>如果你想让你的行为包具有更高的自由度，可以通过以下步骤引入脚本。</p>
+                <h3>1. 修改<code class="inline-code">manifest.json</code> 以支持脚本</h3>
+                <p>你需要在原有的<code class="inline-code">manifest.json</code> 中，在<code class="inline-code">modules</code> 数组里追加一个 script 类型的模块，并在 <code class="inline-code">dependencies</code> 中声明你需要的 API 库。</p>
+                <p>修改后的<code class="inline-code">manifest.json</code> 部分片段如下：</p>
+                <pre class="code-block" data-lang="JSON"><code>
+"modules": [
+        {
+            "description": "行为包核心模块",
+            "type": "data",
+            "uuid": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+            "version": [1, 0, 0]
+        },
+        {
+            "description": "JavaScript 脚本模块",
+            "type": "script",
+            "language": "javascript",
+            "uuid": "3b4c5d6e-7f8a-9b0c-1d2e-3f4a5b6c7d8e",
+            "version": [1, 0, 0],
+            "entry": "scripts/main.js"
+        }
+    ],
+    "dependencies": [
+        {
+            "module_name": "@minecraft/server",
+            "version": "1.10.0"
+        }
+    ]</code></pre>
+                <h3>2. 编写脚本文件</h3>
+                在<code class="inline-code">scripts/</code> 目录下新建 <code class="inline-code">main.js</code>。我们来实现一个简单的逻辑：当玩家敲击方块时，在公屏打印一条欢迎语，并赋予玩家短时间的加速效果。
+                <pre class="code-block" data-lang="JavaScript"><code>
+import { world, system, EffectType } from "@minecraft/server";
+
+// 监听玩家破坏/点击方块的事件
+world.afterEvents.playerBreakBlock.subscribe((eventData) => {
+    const player = eventData.player;
+    const block = eventData.block;
+
+    // 向全服或当前玩家发送聊天栏消息
+    player.sendMessage(`你刚刚破坏了一个系统方块: ${block.typeId}`);
+
+    // 给玩家施加一个速度效果 (持续100 tick，即5秒，强度为2)
+    system.run(() => {
+        player.addEffect("speed", 100, {
+            amplifier: 1,
+            showParticles: true
+        });
+    });
+});</code></pre>
+                <h3>为什么脚本开发需要谨慎？</h3>
+                <p>JavaScript 是图灵完备的编程语言。这意味着，错误的循环逻辑（例如死循环<code class="inline-code">while(true)</code>）会直接导致整个游戏客户端或服务器卡死崩溃。在使用 Script API 时，必须严格遵循事件订阅机制，并注意对象的生命周期。</p>
+
+                <h2>七、调试、测试与常见错误排查</h2>
+                <p>编写好代码后，直接将其放入游戏中进行检验是唯一的试金石。</p>
+                <h3>1. 如何导入游戏</h3>
+                <p>最推荐的方法是在开发阶段目录内导入。不要把行为包直接打包，而是将你的整个开发文件夹（例如<code class="inline-code">MyBehaviorPack</code>）复制到基岩版的专用开发目录下：<code class="inline-code">%localappdata%\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang\development_behavior_packs\</code>。放到这里的文件夹会自动实时同步到游戏内，修改代码后只需退出并重新进入世界即可刷新，无需反复导入。</p>
+                <p>还有一种方法就是在发布阶段打包。将文件夹内的所有文件（注意：是全选文件，而不是选择外层文件夹）压缩为<code class="inline-code">.zip</code> 格式，然后将后缀名直接改为<code class="inline-code">.mcpack</code>。双击该文件，游戏便会自动启动并导入。</p>
+                <h3>2. 核心调试技巧与日志分析</h3>
+                <p>很多初学者最常遇到的问题就是：“为什么我把行为包激活了，进游戏却什么都没有发生？”</p>
+
+                <p>此时，请按以下步骤理性排查，切忌盲目乱猜：</p>
+                <ol>
+                    <li><strong>检查 Content Log（内容日志）窗口：</strong>如果在进入世界时弹出了一个满是红字或黄字的窗口，这说明游戏引擎读取到了你的包，但语法有误。</li>
+                    <li><strong>检查 UUID 冲突：</strong>如果你复制了别人的<code class="inline-code">manifest.json</code></code>却忘记修改 UUID，游戏会直接忽略你的包，且不会报任何错误。</li>
+                    <li><strong>大写与小写敏感：</strong>基岩版对文件的路径和文件名大小写极其敏感。如果在 JSON 里写了<code class="inline-code">"table": "loot_tables/entities/Cow.json"</code>，而实际文件名是<code class="inline-code">cow.json</code>（小写），在 Windows 系统上可能偶尔能跑通，但在移动端（Android/iOS）或服务器（Linux）上必定失效。</li>
+                </ol>
+                <h2>八、结语</h2>
+                <p>制作 Minecraft 基岩版行为包是一个将创意转化为现实的过程。从最基础的修改原版生物属性，到利用 JSON 构建全新的方块物品，再到利用 Script API 编写复杂的微型玩法模块，它的上限极高。</p>
+                <p>初学者往往会被枯燥的代码和频繁的报错劝退，但只要你掌握了规范的目录结构，学会利用 VS Code 插件进行语法纠错，并养成了看内容日志的习惯，你会发现 Add-on 开发具有极强的逻辑美感。多参考官方公开的原版模板文件，多动手实践，是通往高阶创作者的唯一路径。</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <p class="footer-line">&copy; 2026 Kastorice's Blog. All Rights Reserved.</p>
+            <p class="footer-line">Theme by DeepSeek &amp; Claude </p>
+        </div>
+    </footer>
+
+    <script src="../posts_script.js" defer></script>
+</body>
+
+</html>
